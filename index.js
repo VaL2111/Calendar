@@ -79,96 +79,73 @@ const months = [
 
 function renderCalendar(year)
 {
-    for (let i = 0; i < 12; i++) {
+    const monthsInYear = 12;
+
+    for (let i = 0; i < monthsInYear; i++) {
         renderMonth(i, year);
     }
 }
 
 function renderMonth(monthIdx, year)
 {
-    const monthName = months[monthIdx].name;
-    const monthTitle = months[monthIdx].title;
-    const monthLength = months[monthIdx].length;
-    const monthHead = buildMonthHead(monthTitle, monthName);
+    const {title, name, length} = months[monthIdx];
+    const monthHead = buildMonthHead(title, name);
     const weekDaysNames = buildWeekDaysNames();
-    const monthDates = buildDates(year, monthIdx, monthLength);
+    const monthDates = buildDates(year, monthIdx, length);
+
     const monthBox = document.createElement('div');
     monthBox.className = 'month';
+    monthBox.innerHTML = `
+        ${monthHead}
+        <div class="month-content">
+            ${weekDaysNames}
+            ${monthDates}
+        </div>
+    `;
 
-    const monthContentHTML = [];
-    monthContentHTML.push(monthHead);
-    monthContentHTML.push('<div class="month-content">');
-    monthContentHTML.push(weekDaysNames);
-    monthContentHTML.push(monthDates);
-    monthContentHTML.push('</div>');
-
-    monthBox.innerHTML = monthContentHTML.join("");
     dom.calendar.appendChild(monthBox);
 }
 
-function buildMonthHead(title, monthName)
+function buildMonthHead(title, name)
 {
     return `
         <div class="month-title">${title}</div>
-        <div class="month-name">${monthName}</div>
+        <div class="month-name">${name}</div>
     `;
 }
 
 function buildWeekDaysNames()
 {
-    const weekDayNames = [
-        'ПН',
-        'ВТ',
-        'СР',
-        'ЧТ',
-        'ПТ',
-        'СБ',
-        'НД'
-    ];
-    const daysNames = [];
-    const weekLength = 7;
+    const weekDayNames = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'НД'];
+    let weekDaysHTML = "";
 
-    for (let i = 0; i < weekLength; i++) {
-        const dayNameTag = `
-            <div class="month-date month-date-accent">${weekDayNames[i]}</div> 
+    for (let i = 0; i < weekDayNames.length; i++) {
+        weekDaysHTML += `
+            <div class="month-date month-date-accent">
+                 ${weekDayNames[i]}
+             </div>
         `;
-        daysNames.push(dayNameTag);
     }
 
-    return daysNames.join(" ");
+    return weekDaysHTML;
 }
 
 function buildDates(year, month, monthLength)
 {
-    const firstWeekDay = 1;
-    const date = new Date(year, month, firstWeekDay);
-    let weekDayStart = date.getDay();
-    let dayCounter = 1;
-    const monday = 1;
-    let isEmptyBox = true;
+    let weekDayStart = new Date(year, month, 1).getDay();
+    weekDayStart = (weekDayStart === 0) ? 7 : weekDayStart;
 
-    const datesHTML = [];
+    let datesHTML = "";
 
-    if (weekDayStart === 0) {
-        weekDayStart = 7;
+    for (let i = 1; i < weekDayStart; i++) {
+        datesHTML += buildDate("");
     }
 
-    while (dayCounter <= monthLength) {
-        if ((weekDayStart > monday) && isEmptyBox) {
-            for(let i = 1; i < weekDayStart; i++) {
-                const dateHTML = buildDate("");
-                datesHTML.push(dateHTML);
-            }
-            isEmptyBox = false;
-        }
-        else {
-            const dateHTML = buildDate(dayCounter);
-            datesHTML.push(dateHTML);
-            dayCounter++;
-        }
+    for (let i = 1; i <= monthLength; i++) {
+        datesHTML += buildDate(i);
     }
 
-    return datesHTML.join("");
+    return datesHTML;
 }
 
 function buildDate(content, isAccent = false)
