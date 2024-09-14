@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+$dateSize: 50px;
+$SymbolSize: 900;
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.head {
+  display: flex;
+  text-transform: uppercase;
+  justify-content: space-between;
+  font-size: 10vw;
+  font-weight: 800;
+  margin-bottom: 30px;
+  margin-top: 0;
+}
+
+.head-color {
+  background: linear-gradient(to right, #FF621F, #AC25FF);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.calendar {
+  text-transform: uppercase;
+  font-weight: $SymbolSize;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 50px;
+}
+
+.month {
+
+}
+
+.month-title {
+  font-size: 32px;
+  color: #404040;
+  margin-bottom: 16px;
+}
+
+.month-name {
+  color: #AA0E6C;
+  margin-bottom: 16px;
+  font-size: 22px;
+}
+
+.month-content {
+  display: inline-grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 2px;
+}
+
+.month-date {
+  width: $dateSize;
+  height: calc($dateSize / 1.5);
+  color: #83818E;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.month-date-accent {
+  color: #E6007E;
+}
