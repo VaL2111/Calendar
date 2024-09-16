@@ -51,7 +51,7 @@ const months = [
         length: 31,
     },
     {
-        title: "День<br>Незалежності України",
+        title: "День<br>Незалежності",
         name: "Серпень",
         length: 31,
     },
@@ -94,7 +94,6 @@ function renderMonth(monthIdx, year)
     const monthDates = buildDates(year, monthIdx, length);
 
     const monthBox = document.createElement('div');
-    monthBox.className = 'month';
     monthBox.innerHTML = `
         ${monthHead}
         <div class="month-content">
